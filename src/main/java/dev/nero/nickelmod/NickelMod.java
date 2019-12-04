@@ -1,8 +1,10 @@
 package dev.nero.nickelmod;
 
 import dev.nero.nickelmod.lists.ItemList;
+import dev.nero.nickelmod.lists.ToolMaterialList;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.SwordItem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -47,7 +49,8 @@ public class NickelMod {
         @SubscribeEvent
         public static void registerItems(final RegistryEvent.Register<Item> event) {
             event.getRegistry().registerAll(
-                ItemList.nickel = new Item(new Item.Properties().group(ItemGroup.MATERIALS)).setRegistryName(location("nickel"))
+                ItemList.nickel = new Item(new Item.Properties().group(ItemGroup.MATERIALS)).setRegistryName(location("nickel")),
+                ItemList.nickel_sword = new SwordItem(ToolMaterialList.nickel_sword, 4, - 3, new Item.Properties().group(ItemGroup.COMBAT)).setRegistryName(location("nickel_sword"))
             );
         }
 
