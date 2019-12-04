@@ -47,7 +47,7 @@ public class NickelMod {
         @SubscribeEvent
         public static void registerItems(final RegistryEvent.Register<Item> event) {
             event.getRegistry().registerAll(
-                ItemList.nickel_ore = new Item(new Item.Properties().group(ItemGroup.MATERIALS)).setRegistryName(location("nickel_ore"))
+                ItemList.nickel = new Item(new Item.Properties().group(ItemGroup.MATERIALS)).setRegistryName(location("nickel"))
             );
         }
 
