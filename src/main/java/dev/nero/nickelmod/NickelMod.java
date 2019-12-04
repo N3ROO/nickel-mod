@@ -1,6 +1,12 @@
 package dev.nero.nickelmod;
 
+import dev.nero.nickelmod.lists.ItemList;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -34,5 +40,19 @@ public class NickelMod {
 
     private void clientSetup(final FMLClientSetupEvent event) {
         LOGGER.info("Hello from clientSetup!");
+    }
+
+    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
+    public static class RegistryEvents {
+        @SubscribeEvent
+        public static void registerItems(final RegistryEvent.Register<Item> event) {
+            event.getRegistry().registerAll(
+                ItemList.nickel_ore = new Item(new Item.Properties().group(ItemGroup.MATERIALS)).setRegistryName(location("nickel_ore"))
+            );
+        }
+
+        private static ResourceLocation location(String name) {
+            return new ResourceLocation(MODID, name);
+        }
     }
 }
