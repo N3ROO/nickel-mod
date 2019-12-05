@@ -11,6 +11,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SwordItem;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.placement.CountRangeConfig;
+import net.minecraft.world.gen.placement.Placement;
+import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,6 +26,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,11 +50,35 @@ public class NickelMod {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        LOGGER.info("Hello from commonSetup!");
+        for(Biome biome : ForgeRegistries.BIOMES) {
+            // Here we say that the nickel ore should appear:
+            // - between layers 50 and 100
+            // - with its default state
+            // - 4 attached at most
+            // - 10 max per chunk
+            biome.addFeature(
+                    GenerationStage.Decoration.UNDERGROUND_ORES,
+                    Biome.createDecoratedFeature(
+                            Feature.ORE,
+                            new OreFeatureConfig(
+                                    OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                                    BlockList.nickel_ore.getDefaultState(),
+                                    4           // vein size (how many ores are attached at most?)
+                            ),
+                            Placement.COUNT_RANGE,
+                            new CountRangeConfig(
+                                    10,         // max number of block in this layer -> probability
+                                    50,    // minimum height
+                                    0,        // height base
+                                    100      // max height
+                            )
+                    )
+            );
+        }
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
-        LOGGER.info("Hello from clientSetup!");
+        // Here goes the entities registration for example
     }
 
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
